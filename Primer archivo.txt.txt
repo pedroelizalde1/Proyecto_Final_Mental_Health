@@ -1,3 +1,0 @@
-Mi primera linea del archivo.
-Mi segunda linea del archivo.
-Mi tercera linea del archivo.
