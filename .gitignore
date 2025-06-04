@@ -1,0 +1,14 @@
+# R files
+.Rhistory
+.RData
+.Rproj.user/
+.Ruserdata
+.Rapp.history
+
+# Datos sensibles o temporales
+*.csv
+*.xlsx
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
