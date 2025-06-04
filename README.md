@@ -13,10 +13,6 @@ Proyecto_Final_Mental_Health/
 ├── .gitignore # Lista de archivos que Git debe ignorar
 ├── LICENSE # Licencia del proyecto (MIT)
 
-yaml
-Copiar
-Editar
-
 ---
 
 ## 🧰 Requisitos
