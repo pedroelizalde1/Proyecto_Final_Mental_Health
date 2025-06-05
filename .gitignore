@@ -1,14 +1,14 @@
-# R files
+# Archivos de R que no deben subirse
 .Rhistory
 .RData
 .Rproj.user/
 .Ruserdata
 .Rapp.history
 
-# Datos sensibles o temporales
+# Archivos de datos que no queremos versionar
 *.csv
 *.xlsx
 
-# Archivos de sistema
+# Archivos del sistema
 .DS_Store
 Thumbs.db

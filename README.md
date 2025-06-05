@@ -1,31 +1,40 @@
 # Análisis de datos sobre la Salud Mental
 
-Este proyecto tiene como objetivo analizar datos relacionados con la salud mental, con especial foco en entornos laborales y factores sociales. Utiliza herramientas de análisis en R para explorar, visualizar y modelar los datos con el fin de encontrar patrones relevantes.
+Este proyecto tiene como objetivo analizar datos relacionados con la salud mental, con especial foco en entornos laborales y factores sociales. Se utilizaron herramientas de análisis en R para explorar, visualizar y modelar los datos con el fin de encontrar patrones relevantes.
 
-## Estructura del proyecto
+---
+
+## 📁 Estructura del proyecto
 
 Proyecto_Final_Mental_Health/
-├── data/               # Archivos de datos (.csv, .xlsx, etc.)
-├── scripts/            # Código en R (.R)
-├── README.md           # Este archivo
-├── .gitignore          # Para excluir archivos innecesarios
-├── LICENSE             # Licencia MIT
+├── data/ # Carpeta donde se colocan los archivos de datos (.csv, .xlsx, etc.)
+├── scripts/ # Código en R (.R) que realiza el análisis
+├── README.md # Este archivo con la descripción del proyecto
+├── .gitignore # Lista de archivos que Git debe ignorar
+├── LICENSE # Licencia del proyecto (MIT)
 
-## Requisitos
+---
 
-- R (versión reciente recomendada)
-- Paquetes: tidyverse, readr, ggplot2, dplyr, etc.
+## 🧰 Requisitos
 
-## Cómo usar este proyecto
+- R (versión actualizada)
+- Paquetes de R:
+  - `tidyverse`
+  - `readr`
+  - `ggplot2`
+  - `dplyr`
+  - Otros según necesidad
 
-1. Clonar este repositorio
-2. Colocar los archivos de datos en la carpeta `data/`
-3. Ejecutar los scripts desde `scripts/`
+---
 
-## Autor
+## 🚀 Cómo usar este proyecto
 
+1. Clonar este repositorio con Git:
+   ```bash
+   git clone https://github.com/pedroelizalde1/Proyecto_Final_Mental_Health.git
+Colocar tus archivos de datos en la carpeta data/
+
+Ejecutar los scripts en R desde la carpeta scripts/
+
+👤 Autor
 Pedro Elizalde, 2025
-
-## Licencia
-
-Este proyecto está licenciado bajo los términos de la Licencia MIT. Ver archivo `LICENSE` para más detalles.
