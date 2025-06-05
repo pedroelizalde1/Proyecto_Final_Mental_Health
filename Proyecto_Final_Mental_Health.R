@@ -19,6 +19,7 @@ library(nnet)
 library(Hmisc)
 library(randomForest)
 library(caret)
+library(cluster)
 
 ## Importamos el data set
 mental_health= read_excel("Mental_Health_Lifestyle_Dataset.xlsx")
@@ -197,31 +198,35 @@ wilcox.test(media_alto,media_moderado)
 vars <- mental_health[, c("Age", "Sleep Hours", "Happiness Score", "Screen Time per Day (Hours)")]
 # 2. Escalar variables
 vars_scaled <- scale(vars)
+
 # 3. Elegir número de clusters con método del codo
-wss <- numeric(5)
-for(k in 1:5) {
+wss <- numeric(10)
+for(k in 1:10) {
   km <- kmeans(vars_scaled, centers = k, nstart = 25, iter.max = 100)
   wss[k] <- km$tot.withinss
 }
-plot(1:5, wss, type = "b", xlab = "Número de clusters", ylab = "Suma de cuadrados dentro del cluster")
-# 4. Elegir k (por ejemplo 3) y hacer clustering
+plot(1:10, wss, type = "b", xlab = "Número de clusters", ylab = "Suma de cuadrados dentro del cluster")
+# 4. Elegir k (por ejemplo 8) y hacer clustering
 set.seed(123)
-km_final <- kmeans(vars_scaled, centers = 5, nstart = 25)
+km_final <- kmeans(vars_scaled, centers = 8, nstart = 25)
 # 5. Añadir cluster al dataset original
 mental_health$cluster <- factor(km_final$cluster)
 # 6. Explorar perfiles por cluster
 aggregate(vars, by = list(Cluster = mental_health$cluster), FUN = mean)
 
-## CONCLUSION
-#Cluster 1: Personas de mediana edad (~44 años), con sueño promedio decente (6.5 h), bajo estrés (1.36, bastante bajo), pero baja felicidad (2.64), y un tiempo moderado en pantalla (~5 horas).
+#Elegimos el metodo Silueta
+avg_sil <- numeric()
 
-#Cluster 2: Grupo más mayor (~55 años), con menos sueño (6.13 h), estrés alto (2.74), pero felicidad media (5.41), y tiempo de pantalla moderado (4.98 h).
+for (k in 2:10) {
+  km <- kmeans(vars_scaled, centers = k, nstart = 25)
+  sil <- silhouette(km$cluster, dist(vars_scaled))
+  avg_sil[k] <- mean(sil[, 3])
+}
 
-#Cluster 3: Jóvenes (~28 años), con buen sueño (6.8 h), estrés alto (2.73), felicidad media (4.92), y tiempo de pantalla algo más alto (5.7 h).
-
-#Cluster 4: Adultos (~41 años), buen sueño (6.56 h), bajo estrés (1.36), felicidad alta (7.4), pero tiempo de pantalla alto (6.6 h).
-
-#Cluster 5: Adultos jóvenes (~37 años), sueño promedio (6.4 h), estrés moderado (1.69), felicidad alta (7.08), pero bajo tiempo de pantalla (3.1 h).
+plot(2:10, avg_sil[2:10], type = "b",
+     xlab = "Número de clusters (k)",
+     ylab = "Silhouette promedio",
+     main = "Método del silhouette")
 
 ## Graficamos boxplots de Cluster para cada variable
 # Combinar datos originales con cluster
@@ -252,8 +257,17 @@ ggplot(mental_health, aes(x = pca1, y = pca2, color = cluster)) +
        color = "Cluster") +
   theme_minimal()
 
+# Resumen de clusters:
+# Se identificaron 8 perfiles según edad, horas de sueño, felicidad y uso de pantallas.
+# - Grupos jóvenes (clusters 1, 2, 5, 6) muestran contrastes: algunos con bajo sueño y felicidad moderada,
+#   otros con alto bienestar y buen descanso.
+# - Grupos mayores (clusters 3, 4, 7, 8) también varían: hay perfiles con baja felicidad y mal descanso,
+#   y otros con alta satisfacción, buen sueño y uso equilibrado de tecnología.
+# - No hay relación lineal entre uso de pantallas y felicidad.
+#   Algunos grupos felices tienen alta exposición, lo que sugiere diferencias en el tipo de uso.
+
 ## Buscamos indicadores de OUTLIERS(pareciera que en horas de sueños los hay)
-ggplot(mental_health, aes(x = "", y = `Happiness Score`)) +
+ggplot(mental_health, aes(x = "", y = `Happiness.Score`)) +
   geom_boxplot(fill = "lightgreen") +
   labs(title = "Boxplot de Felicidad", x = "", y = "Score de Felicidad") +
   theme_minimal()
